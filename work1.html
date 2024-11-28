@@ -13,53 +13,193 @@
     <style>
         body {
             font-family: 'Noto Sans Thai', sans-serif;
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 40px 0;
         }
 
         .container101 {
-            background-color: #6256CA;
-            border-radius: 10px;
-            margin-left: 20%;
-            margin-right: 20%;
+            background: linear-gradient(135deg, #6256CA 0%, #8A84E2 100%);
+            border-radius: 20px;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .container101:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
 
         .p-2 {
-            font-size: large;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2c3e50;
+            line-height: 1.6;
         }
 
         .btn-primary {
-            background-color: #6256CA;
-            border-color: #6256CA;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
-
-        .quiz-container {
-            background-color: #ece8f3;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .quiz-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-
-        .quiz-option {
+            background: linear-gradient(135deg, #6256CA 0%, #8A84E2 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
             margin-bottom: 10px;
         }
 
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #8A84E2 0%, #6256CA 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(98,86,202,0.4);
+        }
+
+        .quiz-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .quiz-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000000;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .quiz-option {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .quiz-option label {
+            display: block;
+            width: 100%;
+            margin: 0;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Hide default radio button */
+        .quiz-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        /* Custom radio button */
+        .quiz-option label:before {
+            content: '';
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #6256CA;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Selected state */
+        .quiz-option input[type="radio"]:checked + label:before {
+            background-color: #6256CA;
+            box-shadow: inset 0 0 0 4px #f8f9fa;
+        }
+
+        /* Hover state */
+        .quiz-option:hover {
+            background-color: #e9ecef;
+            border-color: #6256CA;
+        }
+
         .correct {
-            background-color: #d4edda;
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+            animation: pulse 0.5s;
         }
 
         .incorrect {
-            background-color: #f8d7da;
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .result-container {
+            background: linear-gradient(135deg, #6256CA 0%, #8A84E2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Add timer styles */
+        .timer-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .timer {
+            background: linear-gradient(135deg, #6256CA 0%, #8A84E2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .timer.warning {
+            background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
@@ -68,11 +208,16 @@
         <h1>แบบทดสอบเข้า ม.1</h1>
     </div>
 
+    <!-- Remove duplicate timer scripts and consolidate into one -->
+    <div class="timer-container">
+        <div id="timer" class="timer" style="display: none;">เวลาที่เหลือ: 30:00</div>
+    </div>
+
     <div class="container mt-5 p-5">
         <div class="row mb-4" id="startBox">
             <button class="btn btn-primary btn-lg" id="btnStart">เริ่มทำแบบทดสอบ</button>
         </div>
-        <div class="row" id="quizBox">
+        <div class="row" id="quizBox" style="display: none;">
             <div id="quizListBox"></div>
             <button class="btn btn-primary btn-lg mt-4" id="btnCheckAnswer">ตรวจคำตอบ</button>
         </div>
@@ -113,33 +258,170 @@
             var html = "<div class='quiz-container' id='quiz-" + no + "'><div class='p-2'>ข้อที่ " + no + ".<div>" + q.title + "</div>";
             for (var c in q.options) {
                 var v = parseInt(c) + 1;
-                html += "<div class='alert alert-info quiz-option'>";
-                html += "<label><input type='radio' name='q" + no + "' value='" + v + "' class='me-2'>" + v + ". " + q.options[c] + "</label>";
+                html += "<div class='quiz-option'>";
+                html += "<input type='radio' id='q" + no + "_" + v + "' name='q" + no + "' value='" + v + "'>";
+                html += "<label for='q" + no + "_" + v + "'>" + v + ". " + q.options[c] + "</label>";
                 html += "</div>";
             }
             html += "</div></div>";
             $("#quizListBox").append(html);
         }
 
-        function checkAnswer(){
+        function checkAnswer() {
+            // Stop the timer
+            if (timerId) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+
+            // Disable further changes
+            isQuizSubmitted = true;
+            disableQuizOptions();
+
             var correctAnswers = 0;
             var totalQuestions = quizlist.length;
+            var score = 0;
 
-            for(var i in quizlist){
+            // Clear any existing feedback
+            $(".answer-feedback").remove();
+            
+            for(var i in quizlist) {
                 var no = parseInt(i) + 1;
                 var selectedOption = $("input[name='q" + no + "']:checked").val();
                 var correctOption = quizlist[i].answer;
 
-                if(selectedOption == correctOption){
+                if(selectedOption == correctOption) {
                     correctAnswers++;
+                    score += 1;
                     $("#quiz-" + no).addClass("correct");
                 } else {
                     $("#quiz-" + no).addClass("incorrect");
-                    $("#quiz-" + no).append("<div class='alert alert-success mt-2'>คำตอบที่ถูกต้องคือ: " + correctOption + ". " + quizlist[i].options[correctOption - 1] + "</div>");
+                    $("#quiz-" + no).append("<div class='alert alert-success mt-2 answer-feedback'>คำตอบที่ถูกต้องคือ: " + correctOption + ". " + quizlist[i].options[correctOption - 1] + "</div>");
                 }
             }
 
+            var percentage = (correctAnswers / totalQuestions) * 100;
+            
+            var resultHtml = "<div class='alert alert-info answer-feedback'>";
+            resultHtml += "<h4>ผลการทดสอบ</h4>";
+            resultHtml += "<p>คะแนนที่ได้: " + score + "/" + totalQuestions + "</p>";
+            resultHtml += "<p>ความถูกต้อง: " + percentage.toFixed(2) + "%</p>";
+            resultHtml += "<p>เวลาที่ใช้: " + getTimeUsed() + "</p>";
+            resultHtml += "</div>";
+            
+            $("#quizListBox").append(resultHtml);
         }
+
+        function getTimeUsed() {
+            const timeUsed = (30 * 60) - timeLeft;
+            const minutes = Math.floor(timeUsed / 60);
+            const seconds = timeUsed % 60;
+            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Timer variables and elements
+        const timerDisplay = document.getElementById('timer');
+        const startButton = document.getElementById('btnStart');
+        const quizBox = document.getElementById('quizBox');
+        const startBox = document.getElementById('startBox');
+        let timeLeft = 60 * 60;
+        let timerId = null;
+        let isQuizStarted = false;
+
+        // Initialize quiz
+        document.addEventListener('DOMContentLoaded', () => {
+            startButton.addEventListener('click', () => {
+                if (!isQuizStarted) {
+                    isQuizStarted = true;
+                    
+                    // Show quiz and timer
+                    quizBox.style.display = 'block';
+                    startBox.style.display = 'none';
+                    timerDisplay.style.display = 'block';
+                    
+                    // Start timer
+                    startTimer();
+                    updateTimerDisplay();
+                }
+            });
+        });
+
+        function startTimer() {
+            // Clear any existing timer
+            if (timerId) clearInterval(timerId);
+            
+            timerId = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft === 300) {
+                    showWarning("เหลือเวลาอีก 5 นาที!");
+                    timerDisplay.classList.add('warning');
+                }
+                
+                if (timeLeft === 60) {
+                    showWarning("เหลือเวลาอ���ก 1 นาที!");
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    endQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.innerHTML = `เวลาที่เหลือ: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            disableQuizOptions();
+            updateTimerDisplay(); // Show initial time
+            startButton.addEventListener('click', startQuiz);
+        });
+
+        function enableQuizOptions() {
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => input.disabled = false);
+        }
+
+        function disableQuizOptions() {
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => input.disabled = true);
+        }
+
+        function showWarning(message) {
+            alert(message);
+        }
+
+        function endQuiz() {
+            if (!isQuizSubmitted) {
+                isQuizSubmitted = true;
+                alert("หมดเวลาทำข้อสอบ!");
+                disableQuizOptions();
+                checkAnswer();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const timerDisplay = document.getElementById('timer');
+            const startButton = document.getElementById('btnStart');
+            const quizBox = document.getElementById('quizBox');
+            const startBox = document.getElementById('startBox');
+
+            startButton.addEventListener('click', () => {
+                // Start timer
+                startQuiz();
+                
+                // Show quiz and hide start button
+                quizBox.style.display = 'block';
+                startBox.style.display = 'none';
+                timerDisplay.style.display = 'block';
+            });
+        });
     </script>
 </body>
 </html>
