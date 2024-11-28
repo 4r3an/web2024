@@ -3,37 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
     <title>SC310006 Mobile and Web Application Development</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Sans Thai', sans-serif;
             margin: 0;
             padding: 20px;
             background-color: #f4f4f4;
+            background-image: url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzZxemlvcGJmMWx1MWM0OWUyeWkyOWdwamY4NjE1cTVhbnRoN2F0dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9JxkPTP3alOykb8PmQ/giphy.gif');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            flex-direction: row;
+            gap: 20px;
         }
-        h1 {
-            color: #333;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
+        .card {
             background: #fff;
-            margin: 10px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .profile-container {
+            text-align: center;
+        }
+        .profile-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .profile-container h2 {
+            color: #333;
+            margin: 10px 0 5px;
+        }
+        .profile-container p {
+            color: #666;
+        }
+        .work-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .work-item {
+            background: #fff;
             padding: 15px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: calc(33.333% - 20px);
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .work-item a {
+            text-decoration: none;
+            color: #333;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>วิชา SC310006 Mobile and Web Application Development</h1>
-    <ul>
-        <li><a href="work1.html">งานที่ 1</a></li>
-        <li>งานที่ 2</li>
-        <li>งานที่ 3</li>
-    </ul>
-    <p>โดย นายอนัณดา มาตราช</p>
+    <div class="card profile-container">
+        <img src="materials/profile_image.jpg" alt="Profile Picture">
+        <h2>นายอนัณดา มาตราช</h2>
+        <p>653380350-5 SC310006 sec.2</p>
+        <h3>contact</h3>
+        <p><i class="fa-solid fa-envelope"></i> <strong>✉️email :</strong> <a>ananda.m@kkumail.com</a></p>
+        <p><i class="fa-solid fa-phone"></i> <strong>📞tel :</strong> <a>080-329-1xxx</a></p>
+        <p><i class="fa-solid fa-facebook"></i><strong>😈Facebook :</strong><a href="https://www.facebook.com/4r3An">Ananda Matarach</a></p>
+        <p><i class="fa-solid fa-facebook"></i><strong>👀Instargram :</strong><a href="https://www.instagram.com/4r3_an">4r3_an</a></p>
+    </div>
+    <div class="card work-container">
+        <h1>วิชา SC310006 Mobile and Web Application Development</h1>
+        <div class="work-item"><a href="work1.html">งานที่ 1</a></div>
+        <div class="work-item">งานที่ 2</div>
+        <div class="work-item">งานที่ 3</div>
+        <div class="work-item">งานที่ 4</div>
+        <div class="work-item">งานที่ 5</div>
+        <div class="work-item">งานที่ 6</div>
+    </div>
 </body>
 </html>
