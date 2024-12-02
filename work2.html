@@ -106,6 +106,16 @@
                         class="mb-4"
                     ></v-progress-linear>
 
+                    <!-- Add warning alert -->
+                    <v-alert
+                        v-if="showWarning"
+                        type="warning"
+                        dismissible
+                        class="mb-4"
+                    >
+                        กรุณาเลือกคำตอบก่อนไปข้อถัดไป
+                    </v-alert>
+
                     <!-- Question Card -->
                     <v-card class="question-card" v-if="!isQuizComplete">
                         <v-card-title class="text-h5">
@@ -144,7 +154,8 @@
                         <v-col cols="6" sm="auto">
                             <v-btn
                                 color="primary"
-                                @click="nextQuestion"
+                                @click="handleNext"
+                                :disabled="selectedAnswer === null"
                                 block
                             >
                                 {{ isLastQuestion ? 'Finish' : 'Next' }}
@@ -218,7 +229,8 @@
             userAnswers: [],
             isQuizComplete: false,
             showAnswers: false,
-            isStarted: false
+            isStarted: false,
+            showWarning: false
         },
         computed: {
             progressPercentage() {
@@ -246,6 +258,17 @@
                     this.currentQuestionIndex--;
                     this.selectedAnswer = this.userAnswers[this.currentQuestionIndex];
                 }
+            },
+            handleNext() {
+                if (this.selectedAnswer === null) {
+                    this.showWarning = true;
+                    setTimeout(() => {
+                        this.showWarning = false;
+                    }, 3000);
+                    return;
+                }
+                this.showWarning = false;
+                this.nextQuestion();
             },
             nextQuestion() {
                 if (this.currentQuestionIndex < this.questions.length - 1) {
