@@ -9,46 +9,107 @@
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
     <title>Math Quiz</title>
     <style>
+        /* Enhanced styling */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%) fixed !important;
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif !important;
+        }
+
         .quiz-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .question-card {
-            margin-bottom: 20px;
-            border-radius: 12px !important;
+            background: var(--card-bg) !important;
+            margin-bottom: 24px;
+            border-radius: 24px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
+
+        .question-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
+        }
+
         .option-button {
-            margin: 8px 0;
+            margin: 10px 0;
             width: 100%;
-            border-radius: 8px !important;
-            white-space: normal !important;
-            height: auto !important;
-            padding: 12px !important;
+            border-radius: 16px !important;
+            padding: 20px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
         }
+
+        .option-button:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+            background: rgba(255, 255, 255, 0.9) !important;
+        }
+
         .v-btn {
-            border-radius: 8px !important;
+            text-transform: none !important;
+            letter-spacing: 0.5px !important;
+            font-weight: 500 !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
-        /* Responsive text sizes */
-        @media (max-width: 600px) {
-            .text-h4 {
-                font-size: 1.5rem !important;
+
+        .v-btn.primary {
+            background: var(--primary-gradient) !important;
+        }
+
+        .v-progress-linear {
+            border-radius: 12px !important;
+            height: 12px !important;
+            background: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .text-h4, .text-h5, .text-h6 {
+            font-weight: 600 !important;
+            letter-spacing: 0.5px !important;
+            color: #1a237e !important;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(5px);
             }
-            .text-h6 {
-                font-size: 1.1rem !important;
-            }
-            .quiz-container {
-                padding: 12px;
-            }
-            .v-btn {
-                min-width: 100px !important;
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
             }
         }
-        /* Tablet adjustments */
-        @media (min-width: 601px) and (max-width: 960px) {
-            .quiz-container {
-                max-width: 90%;
-            }
+
+        .v-chip {
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .v-list-item {
+            border-radius: 12px !important;
+            margin: 8px 0 !important;
+            transition: all 0.3s ease !important;
+            background: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .v-list-item:hover {
+            background: rgba(255, 255, 255, 0.9) !important;
+            transform: translateX(4px);
         }
     </style>
 </head>
@@ -195,14 +256,39 @@
                                         <v-list dense>
                                             <v-list-item v-for="(option, optIndex) in question.options" :key="optIndex">
                                                 <v-list-item-content>
-                                                    <v-list-item-title :class="{
-                                                        'success--text': question.answer - 1 === optIndex,
-                                                        'error--text': userAnswers[index] === optIndex && question.answer - 1 !== optIndex
-                                                    }">
-                                                        {{ option }}
-                                                        <v-icon v-if="question.answer - 1 === optIndex" small color="success">
-                                                            mdi-check
-                                                        </v-icon>
+                                                    <v-list-item-title 
+                                                        :class="{
+                                                            'success--text font-weight-bold': question.answer - 1 === optIndex,
+                                                            'error--text font-weight-bold': userAnswers[index] === optIndex && question.answer - 1 !== optIndex
+                                                        }"
+                                                        class="d-flex align-center justify-space-between py-2"
+                                                        :style="{
+                                                            backgroundColor: userAnswers[index] === optIndex ? 
+                                                                (question.answer - 1 === optIndex ? 'rgba(76, 175, 80, 0.1)' : 'rgba(244, 67, 54, 0.1)') : 
+                                                                'transparent',
+                                                            padding: '8px 12px',
+                                                            borderRadius: '8px'
+                                                        }"
+                                                    >
+                                                        <span>{{ option }}</span>
+                                                        <span>
+                                                            <v-icon 
+                                                                v-if="question.answer - 1 === optIndex" 
+                                                                small 
+                                                                color="success"
+                                                                class="ml-2"
+                                                            >
+                                                                mdi-check-circle
+                                                            </v-icon>
+                                                            <v-icon 
+                                                                v-if="userAnswers[index] === optIndex && question.answer - 1 !== optIndex" 
+                                                                small 
+                                                                color="error"
+                                                                class="ml-2"
+                                                            >
+                                                                mdi-close-circle
+                                                            </v-icon>
+                                                        </span>
                                                     </v-list-item-title>
                                                 </v-list-item-content>
                                             </v-list-item>
