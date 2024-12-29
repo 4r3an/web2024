@@ -33,10 +33,11 @@
             score: 0,
           };
         }
- // Load quiz data from a JSON file
+
+        // Load quiz data from a JSON file
         async loadQuizData() {
           try {
-            const response = await fetch('quiz.json'); // Assuming 'quiz.json' is available in the root folder
+            const response = await fetch('quiz3.json'); // Assuming 'quiz.json' is available in the root folder
             const data = await response.json();
             this.setState({ questions: data });
           } catch (error) {
@@ -83,7 +84,22 @@
             }));
           }
         };
-render() {
+
+        // Navigate to the next question
+        nextQuestion = () => {
+          if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
+            this.setState((prevState) => ({
+              currentQuestionIndex: prevState.currentQuestionIndex + 1,
+            }));
+          }
+        };
+
+        // When the component mounts, load the quiz data
+        componentDidMount() {
+          this.loadQuizData();
+        }
+
+        render() {
           const { questions, currentQuestionIndex, answers, status, score } = this.state;
           const currentQuestion = questions[currentQuestionIndex];
 
@@ -117,7 +133,7 @@ render() {
                       <div key={index}>
                         <input
                           type="radio"
-                          name={q${currentQuestion.id}}
+                          name={`q${currentQuestion.id}`}
                           value={option}
                           checked={answers[currentQuestion.id] === option}
                           onChange={() => this.selectAnswer(currentQuestion.id, option)}
@@ -165,20 +181,7 @@ render() {
                         {questions.map((question) => (
                           <li key={question.id}>
                             <b>ข้อที่ {question.id}:</b> {question.question}
-        // Navigate to the next question
-        nextQuestion = () => {
-          if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
-            this.setState((prevState) => ({
-              currentQuestionIndex: prevState.currentQuestionIndex + 1,
-            }));
-          }
-        };
-
-        // When the component mounts, load the quiz data
-        componentDidMount() {
-          this.loadQuizData();
-        }
-<br />
+                            <br />
                             <b>คำตอบของคุณ:</b> {answers[question.id] || "ไม่ได้เลือกตอบ"}
                             <br />
                             <b>คำตอบที่ถูกต้อง:</b> {question.correct}
@@ -206,6 +209,7 @@ render() {
           
         }
       }
+
       const container = document.getElementById('myapp');
       const root = ReactDOM.createRoot(container);
       root.render(<App />);
