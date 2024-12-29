@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReactJS Exam App</title>
+
+    <!-- React and Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Bootstrap for styling -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="myapp" class="container p-4"></div>
+
+    <script type="text/babel">
+      class App extends React.Component {
+        constructor() {
+          super();
+          this.state = {
+            questions: [], // Empty initially, will load from JSON
+            currentQuestionIndex: 0,
+            answers: {},
+            status: 'menu', // 'menu', 'quiz', 'result'
+            score: 0,
+          };
+        }
+ // Load quiz data from a JSON file
+        async loadQuizData() {
+          try {
+            const response = await fetch('quiz.json'); // Assuming 'quiz.json' is available in the root folder
+            const data = await response.json();
+            this.setState({ questions: data });
+          } catch (error) {
+            console.error('Error loading quiz data:', error);
+          }
+        }
+
+        // Start the exam
+        startExam = () => {
+          this.setState({ status: 'quiz' });
+        };
+
+        // Select an answer
+        selectAnswer = (questionId, answer) => {
+          this.setState((prevState) => ({
+            answers: {
+              ...prevState.answers,
+              [questionId]: answer,
+            },
+          }));
+        };
+
+        // Submit the exam and calculate the score
+        submitExam = () => {
+          let score = 0;
+          this.state.questions.forEach((question) => {
+            if (this.state.answers[question.id] === question.correct) {
+              score += 1;
+            }
+          });
+          this.setState({ score, status: 'result' });
+        };
+
+        // Go back to the menu
+        goBackToMenu = () => {
+          this.setState({ status: 'menu', score: 0, answers: {}, currentQuestionIndex: 0 });
+        };
+
+        // Navigate to the previous question
+        previousQuestion = () => {
+          if (this.state.currentQuestionIndex > 0) {
+            this.setState((prevState) => ({
+              currentQuestionIndex: prevState.currentQuestionIndex - 1,
+            }));
+          }
+        };
+render() {
+          const { questions, currentQuestionIndex, answers, status, score } = this.state;
+          const currentQuestion = questions[currentQuestionIndex];
+
+          return (
+            <div className="card">
+              <div className="card-header">
+                <div>
+                  <h1><b>Work3 :</b></h1>
+                  <h3>แบบทดสอบ ด้วย ReactJS</h3>
+                </div>
+              </div>
+        
+              <div className="card-body">
+                {/* Menu Screen */}
+                {status === 'menu' && (
+                  <div>
+                    <h4><b>เริ่มต้นทำแบบทดสอบ</b></h4>
+                    <button className="btn btn-primary" onClick={this.startExam}>
+                      Start Exam
+                    </button>
+                  </div>
+                )}
+
+                {/* Quiz Screen */}
+                {status === 'quiz' && currentQuestion && (
+                  <div>
+                    {/* Displaying Question Number */}
+                    <h4><b>ข้อที่ {currentQuestionIndex + 1}:</b> {currentQuestion.question}</h4>
+
+                    {currentQuestion.options.map((option, index) => (
+                      <div key={index}>
+                        <input
+                          type="radio"
+                          name={q${currentQuestion.id}}
+                          value={option}
+                          checked={answers[currentQuestion.id] === option}
+                          onChange={() => this.selectAnswer(currentQuestion.id, option)}
+                        />
+                        {option}
+                      </div>
+                    ))}
+
+                    {/* Navigation Buttons */}
+                    <div className="mt-3">
+                      {/* Previous Button */}
+                      {currentQuestionIndex > 0 && (
+                        <button
+                          className="btn btn-secondary me-2"
+                          onClick={this.previousQuestion}
+                        >
+                          ย้อนกลับ
+                        </button>
+                      )}
+
+                      {/* Next Button */}
+                      {currentQuestionIndex < questions.length - 1 ? (
+                        <button
+                          className="btn btn-secondary me-2"
+                          onClick={this.nextQuestion}
+                        >
+                          ข้อถัดไป
+                        </button>
+                      ) : (
+                        <button className="btn btn-success" onClick={this.submitExam}>
+                          ส่งข้อสอบ
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Result Screen */}
+                {status === 'result' && (
+                  <div>
+                    <h3>Your Score: {score} / {questions.length}</h3>
+                    <div>
+                      <h4><b>Answer Review:</b></h4>
+                      <ul>
+                        {questions.map((question) => (
+                          <li key={question.id}>
+                            <b>ข้อที่ {question.id}:</b> {question.question}
+        // Navigate to the next question
+        nextQuestion = () => {
+          if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
+            this.setState((prevState) => ({
+              currentQuestionIndex: prevState.currentQuestionIndex + 1,
+            }));
+          }
+        };
+
+        // When the component mounts, load the quiz data
+        componentDidMount() {
+          this.loadQuizData();
+        }
+<br />
+                            <b>คำตอบของคุณ:</b> {answers[question.id] || "ไม่ได้เลือกตอบ"}
+                            <br />
+                            <b>คำตอบที่ถูกต้อง:</b> {question.correct}
+                            <br />
+                            <b>ผลลัพธ์:</b> {answers[question.id] === question.correct ? "ถูก" : "ผิด"}
+                            <br /><br />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <button className="btn btn-secondary" onClick={this.goBackToMenu}>
+                      กลับไปที่หน้าหลัก
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="card-footer">{this.footer} 
+          <div>By 653380350-5 Ananda Matarach <br/>
+           College of Computing, Khon Kaen University
+          </div></div>
+            </div>
+
+            
+          );
+          
+        }
+      }
+      const container = document.getElementById('myapp');
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html>
