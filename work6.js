@@ -242,7 +242,6 @@ function App() {
                       <option value="นาย">นาย</option>
                       <option value="นาง">นาง</option>
                       <option value="นางสาว">นางสาว</option>
-                      <option value="อื่นๆ">อื่นๆ</option>
                     </Form.Select>
                   </Form.Group>
 
